@@ -492,8 +492,23 @@ function setupSeguimientoPage() {
   if(btn) {
     btn.addEventListener('click', () => {
       clearInterval(interval);
-      while(step <= 5) advance();
-      advance();
+      // Advance all remaining steps instantly
+      while(step <= 5) {
+        const el = document.getElementById('step' + step);
+        if(el) {
+          el.classList.replace('bg-surface-container-high', 'bg-primary');
+          el.classList.replace('text-on-surface', 'text-on-primary');
+        }
+        step++;
+      }
+      // Update timer display
+      const timeEl = document.getElementById('seg-time');
+      if(timeEl && timeEl.parentElement) {
+        timeEl.parentElement.textContent = '¡Ha llegado!';
+      }
+      // Show toast and rating modal exactly once
+      showToast('¡Maqueta entregada! 🎉');
+      setTimeout(() => showRatingModal(), 600);
     });
   }
 }
